@@ -10,8 +10,8 @@ class Service {
 
   async create (data, params) {
     try {
-      const content = await this.index.addObjects(data);
-      return content;
+      const content = await this.index.addObjects([data]);
+      return { id: content.objectIDs[0] };
     } catch(error) {
       console.log('/apps-create-error', error);
     }
@@ -20,7 +20,7 @@ class Service {
   async remove (id, params) {
     try {
       const content = await this.index.deleteObject(id);
-      return content;
+      return { id: content.objectID };
     } catch(error) {
       console.log('/apps-remove-error', error);
     }

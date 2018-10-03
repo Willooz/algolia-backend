@@ -5,7 +5,7 @@ const hooks = require('./apps.hooks');
 module.exports = function (app) {
 
   const options = {
-    applicationId: app.get('algolia').applicationId
+    applicationId: app.get('algolia').applicationId,
     apiKey: app.get('algolia').apiKey
   };
 

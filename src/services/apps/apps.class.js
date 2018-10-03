@@ -1,37 +1,29 @@
+const algoliasearch = require('algoliasearch');
+
 /* eslint-disable no-unused-vars */
 class Service {
   constructor (options) {
     this.options = options || {};
-  }
-
-  async find (params) {
-    return [];
-  }
-
-  async get (id, params) {
-    return {
-      id, text: `A new message with ID: ${id}!`
-    };
+    this.client = algoliasearch(options.applicationId, options.apiKey);
+    this.index = this.client.initIndex('apps');
   }
 
   async create (data, params) {
-    if (Array.isArray(data)) {
-      return Promise.all(data.map(current => this.create(current, params)));
+    try {
+      const content = await this.index.addObjects(data);
+      return content;
+    } catch(error) {
+      console.log('/apps-create-error', error);
     }
-
-    return data;
-  }
-
-  async update (id, data, params) {
-    return data;
-  }
-
-  async patch (id, data, params) {
-    return data;
   }
 
   async remove (id, params) {
-    return { id };
+    try {
+      const content = await this.index.deleteObject(id);
+      return content;
+    } catch(error) {
+      console.log('/apps-remove-error', error);
+    }
   }
 }
 
